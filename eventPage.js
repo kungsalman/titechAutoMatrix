@@ -1,23 +1,25 @@
-chrome.runtime.onInstalled.addListener(function() {
-  chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
-    chrome.declarativeContent.onPageChanged.addRules([
-      {
-        conditions: [
-          new chrome.declarativeContent.PageStateMatcher({
-            pageUrl: {
-              schemes: [ "https" ],
-              hostEquals: "portal.nap.gsic.titech.ac.jp",
-              pathEquals: "/GetAccess/Login",
-              queryContains: "Template=idg_key&AUTHMETHOD=IG&GASF=CERTIFICATE,IG.GRID"
-            },
-          })
-        ],
-        actions: [ new chrome.declarativeContent.ShowPageAction() ]
-      }
-    ]);
-  });
-});
+function checkForValidUrl(tabID, changeInfo, tab) {
+  var a = document.createElement('a');
+  a.href = tab.url;
+  var scheme = a.protocol.replace(':', '');
+  var host = a.hostname;
+  var path = a.pathname;
+  var query = a.search;
 
-chrome.pageAction.onClicked.addListener(function(tab) {
-  console.log("hej");
-});
+  if (scheme == 'https' &&
+      host == 'portal.nap.gsic.titech.ac.jp' &&
+      path == '/GetAccess/Login' &&
+      query.lastIndexOf('Template=idg_key') > -1 &&
+      query.lastIndexOf('AUTHMETHOD=IG') > -1 &&
+      query.lastIndexOf('GASF=CERTIFICATE,IG.GRID') > -1) {
+    chrome.pageAction.show(tabID);
+  }
+}
+
+function fillIn(tab) {
+  console.log('Test');
+}
+
+chrome.tabs.onUpdated.addListener(checkForValidUrl);
+chrome.pageAction.onClicked.addListener(fillIn);
+
