@@ -1,9 +1,12 @@
-// There should only be one form with name 'login' in the document.
 var letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+// There should only be one form with name 'login' in the document.
 var form = document.querySelector('form[name="login"]');
+// Finds the three input fields
 var inputs = form.querySelectorAll('input[type="password"][name^="message"]');
 var ids = [];
 
+// Parse the text next to the fields to find the correct indices in the stored
+// matrix.
 for (var i = 0; i < inputs.length; i++) {
   var id = inputs[i].parentNode.previousElementSibling.previousElementSibling;
   id = id.textContent;
@@ -17,6 +20,7 @@ for (var i = 0; i < inputs.length; i++) {
   }
 }
 
+// Get the stored matrix and fill the input fields.
 chrome.storage.sync.get({
     matrix: null
 }, function(items) {

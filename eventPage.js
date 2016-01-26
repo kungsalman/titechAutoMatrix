@@ -1,4 +1,6 @@
-function checkForValidUrl(tabID, changeInfo, tab) {
+// Check if a tab has correct url to show the page action and fill in the
+// matrix authentication.
+function checkForValidUrl(tabId, changeInfo, tab) {
   var a = document.createElement('a');
   a.href = tab.url;
   var scheme = a.protocol.replace(':', '');
@@ -12,15 +14,21 @@ function checkForValidUrl(tabID, changeInfo, tab) {
       query.lastIndexOf('Template=idg_key') > -1 &&
       query.lastIndexOf('AUTHMETHOD=IG') > -1 &&
       query.lastIndexOf('GASF=CERTIFICATE,IG.GRID') > -1) {
-    chrome.pageAction.show(tabID);
-    chrome.tabs.executeScript(tabID, {file: "fillMatrix.js"});
+    chrome.pageAction.show(tabId);
+    fillInTabId(tabId);
   }
 }
 
-function fillIn(tab) {
-  console.log('Test');
+// Fill fields of a tab given a tabs.Tab object.
+function fillInTab(tab) {
+  fillInTabId(tab.id);
+}
+
+// Fill fields of a tab given tab id.
+function fillInTabId(tabId) {
+  chrome.tabs.executeScript(tabId, {file: "fillMatrix.js"});
 }
 
 chrome.tabs.onUpdated.addListener(checkForValidUrl);
-chrome.pageAction.onClicked.addListener(fillIn);
+chrome.pageAction.onClicked.addListener(fillInTab);
 
