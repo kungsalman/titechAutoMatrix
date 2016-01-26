@@ -22,12 +22,16 @@ for (var i = 0; i < inputs.length; i++) {
 
 // Get the stored matrix and fill the input fields.
 chrome.storage.sync.get({
-    matrix: null
+    matrix: null,
+    autoLogin: false
 }, function(items) {
   if (items.matrix !== null) {
     for (var i = 0; i < inputs.length; i++) {
       inputs[i].value = items.matrix[ids[i].row][ids[i].column];
     }
   } 
+  if (items.autoLogin) {
+    form.submit();
+  }
 });
 

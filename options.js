@@ -45,8 +45,9 @@ function showCharacters() {
   }
 }
 
-// Saves all the matrix values to persistent storage.
+// Saves all the matrix values and login options to persistent storage.
 function saveOptions() {
+  var autoLogin = document.getElementById('autoLogin').checked;
   var data = [];
   for (var i = 0; i < 7; i++) {
     var row = [];
@@ -56,7 +57,8 @@ function saveOptions() {
     data[i] = row;
   }
   chrome.storage.sync.set({
-    matrix: data
+    matrix: data,
+    autoLogin: autoLogin
   }, function() {
     var msg = document.getElementById('status');
     msg.textContent = 'Saved!';
@@ -84,8 +86,10 @@ function generateDefaultMatrix() {
 // Restore options previously saved by the user.
 function restoreOptions() {
   chrome.storage.sync.get({
-    matrix: defaultMatrix
+    matrix: defaultMatrix,
+    autoLogin: true
   }, function(items) {
+    document.getElementById('autoLogin').checked = items.autoLogin;
     for (var i = 0; i < items.matrix.length; i++) {
       for (var j = 0; j < items.matrix[i].length; j++) {
         document.getElementById(letters[j]+(i+1)).value = items.matrix[i][j];
