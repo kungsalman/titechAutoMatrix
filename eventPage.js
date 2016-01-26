@@ -15,20 +15,20 @@ function checkForValidUrl(tabId, changeInfo, tab) {
       query.lastIndexOf('AUTHMETHOD=IG') > -1 &&
       query.lastIndexOf('GASF=CERTIFICATE,IG.GRID') > -1) {
     chrome.pageAction.show(tabId);
-    fillInTabId(tabId);
+    fillIn(tabId);
   }
 }
 
-// Fill fields of a tab given a tabs.Tab object.
-function fillInTab(tab) {
-  fillInTabId(tab.id);
+// Open the options page (executed when page actions is clicked).
+function openOptions(tab) {
+  chrome.runtime.openOptionsPage();
 }
 
 // Fill fields of a tab given tab id.
-function fillInTabId(tabId) {
+function fillIn(tabId) {
   chrome.tabs.executeScript(tabId, {file: "fillMatrix.js"});
 }
 
 chrome.tabs.onUpdated.addListener(checkForValidUrl);
-chrome.pageAction.onClicked.addListener(fillInTab);
+chrome.pageAction.onClicked.addListener(openOptions);
 

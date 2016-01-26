@@ -11,7 +11,8 @@
   },
 
   "page_action": {
-    "default_icon": "icon.png"
+    "default_icon": "icon.png",
+    "default_title": "Go to options to enter the matrix."
   },
 
   "options_page": "options.html",
