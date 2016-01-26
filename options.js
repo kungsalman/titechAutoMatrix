@@ -1,6 +1,8 @@
 var table = document.createElement('table');
 var letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+var defaultMatrix = generateDefaultMatrix();
 
+// Generates the table with all the input fields
 function buildInputTable() {
   for (var i = 0; i <= 7; i++) {
     var row = document.createElement('tr');
@@ -33,7 +35,8 @@ function buildInputTable() {
   document.getElementById('matrix').appendChild(table);
 }
 
-
+// Makes characters visible/invisible by changing input-type between 'text' and
+// 'password'.
 function showCharacters() {
   var type = document.getElementById('showChars').checked ? 'text' : 'password';
   var inputs = document.getElementsByClassName('matrixInput');
@@ -42,8 +45,7 @@ function showCharacters() {
   }
 }
 
-document.getElementById('showChars').addEventListener('change', showCharacters);
-
+// Saves all the matrix values to persistent storage.
 function saveOptions() {
   var data = [];
   for (var i = 0; i < 7; i++) {
@@ -64,10 +66,9 @@ function saveOptions() {
   });
 }
 
-document.getElementById('save').addEventListener('click', saveOptions);
 
-var defaultMatrix = generateDefaultMatrix();
-
+// Generates a default matrix used when no previous data has been saved by the
+// user. It is an array of arrays of empty strings.
 function generateDefaultMatrix() {
   var matrix = [];
   for (var i = 0; i < 7; i++) {
@@ -80,6 +81,7 @@ function generateDefaultMatrix() {
   return matrix;
 }
 
+// Restore options previously saved by the user.
 function restoreOptions() {
   chrome.storage.sync.get({
     matrix: defaultMatrix
@@ -92,10 +94,14 @@ function restoreOptions() {
   });
 }
 
+// Set up the options page. The functions is run when DOM content is loaded.
+// The input table is built and saved data is restored.
 function setUp() {
   buildInputTable();
   restoreOptions();
 }
 
+document.getElementById('showChars').addEventListener('change', showCharacters);
+document.getElementById('save').addEventListener('click', saveOptions);
 document.addEventListener('DOMContentLoaded', setUp);
 
