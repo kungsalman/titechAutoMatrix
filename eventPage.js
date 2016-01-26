@@ -13,6 +13,7 @@ function checkForValidUrl(tabID, changeInfo, tab) {
       query.lastIndexOf('AUTHMETHOD=IG') > -1 &&
       query.lastIndexOf('GASF=CERTIFICATE,IG.GRID') > -1) {
     chrome.pageAction.show(tabID);
+    chrome.tabs.executeScript(tabID, {file: "fillMatrix.js"});
   }
 }
 
