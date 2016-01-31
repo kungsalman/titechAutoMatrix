@@ -2,13 +2,11 @@
   "manifest_version": 2,
 
   "name": "Titech AutoMatrix",
+  "short_name": "AutoMatrix",
   "description": "Automatically fill in the matrix authentication when logging in to TokyoTech Portal",
-  "version": "1.0",
+  "version": "1.1",
 
-  "page_action": {
-    "default_icon": "icon.ico",
-    "default_title": "Go to options to enter the matrix."
-  },
+  "icons" : { "32": "icon.ico" },
 
   "options_page": "options.html",
   "options_ui": {

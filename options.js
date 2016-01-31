@@ -8,16 +8,16 @@ function buildInputTable() {
     var row = document.createElement('tr');
     var firstCell = document.createElement('td');
 
-    if (i == 0) {
-      row.style.textAlign = 'center';
-    } else {
+    if (i > 0) {
+      firstCell = document.createElement('th');
       firstCell.innerHTML = i;
     }
     row.appendChild(firstCell);
 
     for (var j = 0; j < letters.length; j++) {
-      var cell = document.createElement('td');
+      var cell
       if (i > 0) {
+        cell = document.createElement('td');
         var input = document.createElement('input');
         input.id = letters[j]+i;
         input.className = 'matrixInput';
@@ -26,6 +26,7 @@ function buildInputTable() {
         input.setAttribute('size', '1');
         cell.appendChild(input);
       } else {
+        cell = document.createElement('th');
         cell.innerHTML = letters[j];
       }
       row.appendChild(cell);
